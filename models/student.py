@@ -4,3 +4,6 @@ class Student:
         self.name = name
         self.gender = gender
         self.email = email
+
+    def __str__(self):
+        return f"{self.sid}, {self.name},{self.gender},{self.email}"

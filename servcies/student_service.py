@@ -1,9 +1,30 @@
 from models.student import Student
+from storge.StudentStorage import MemoryStudentStorage
+
+
+class Validator:
+    def validate(self, student: Student):
+        errors = []
+        if '@gmail.com' not in student.email:
+            errors.append('email is invalid')
+        if student.gender not in ['Male', 'Female']:
+            errors.append('Gender is invalid')
+        return errors
 
 
 class StudentService:
 
-    def store_students(self, sid, name, gender, email):
+    def __init__(self):
+        self.memory_student_storage = MemoryStudentStorage()
+        self.validator = Validator()
 
-        student = {'id': sid, 'name': name, 'gender': gender, 'email': email}
-        print(student)
+    def store_student(self, sid, name, gender, email):
+        student = Student(_id=sid, name=name, gender=gender, email=email)
+        validation_errors = self.validator.validate(student)
+        if len(validation_errors) != 0:
+            return None, validation_errors
+        self.memory_student_storage.save_student(student)
+        return student, None
+
+    def get_students(self):
+        return self.memory_student_storage.get_students()
