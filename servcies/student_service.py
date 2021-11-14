@@ -9,6 +9,10 @@ class Validator:
             errors.append('email is invalid')
         if student.gender not in ['Male', 'Female']:
             errors.append('Gender is invalid')
+        if student.name == '':
+            errors.append('Name should not be empty')
+        if student.sid == '':
+            errors.append('ID should not be empty')
         return errors
 
 

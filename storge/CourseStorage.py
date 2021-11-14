@@ -8,5 +8,5 @@ class MemoryCourseStorage:
     def save_course(self, course: Course):
         self.courses.append(course)
 
-    def get_course(self):
+    def get_courses(self):
         return self.courses

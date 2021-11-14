@@ -1,8 +1,10 @@
 from servcies.student_service import StudentService
 from servcies.course_service import CourseService
+from servcies.mark_service import MarkService
 
 student_service = StudentService()
 course_service = CourseService()
+mark_service = MarkService()
 
 
 def add_student():
@@ -23,15 +25,40 @@ def get_students():
 
 
 def add_course():
-    course_input = input('Enter a course: <id>, <name>, <max mark>')
+    course_input = input('Enter a course: <id>, <name>, <max mark> ')
     try:
         _id, name, max_mark = course_input.split(",")
-        course = course_service.store_course(_id, name, max_mark)
+        course, errors = course_service.store_course(_id, name, max_mark)
+        if errors is None:
+            print(course)
+        else:
+            print(errors)
     except ValueError:
         print("input should match : <Id>, <name>, <max mark>")
+
+
+def get_course():
+    print(str(course_service.get_course()))
+
+
+def add_mark():
+    mark_input = input('Enter a student mark: <student id>, <course id>, <student mark> ')
+    try:
+        sid, cid, stu_mark = mark_input.split(',')
+        mark = mark_service.store_mark(sid, cid, stu_mark)
+        print(mark)
+    except ValueError:
+        print('input should match: <student id>, <course id>, <student mark>')
+
+
+def get_mark():
+    print(str(course_service.get_course()))
 
 
 if __name__ == "__main__":
     add_student()
     get_students()
-    add_course()
+    # add_course()
+    # get_course()
+    # add_mark()
+    # get_mark()
