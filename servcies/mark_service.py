@@ -14,14 +14,26 @@ class Validator:
         return errors
 
 
+class FunctionalValidator:
+    """
+    check student and course existence
+    """
+
+    def __init__(self, student_service):
+        self.student_service = student_service
+
+    def validate(self, student_id, course_id):
+        pass
+
+
 class MarkService:
     def __init__(self):
         self.memory_mark_storage = MemoryMarkStorage()
-        self.validator = Validator()
+        self.data_validator = Validator()
 
     def store_mark(self, sid, cid, stu_mark):
         mark = Mark(sid=sid, cid=cid, stu_mark=int(stu_mark))
-        validation_error = self.validator.validate(mark)
+        validation_error = self.data_validator.validate(mark)
         if len(validation_error) != 0:
             return None, validation_error
         self.memory_mark_storage.save_mark(mark)

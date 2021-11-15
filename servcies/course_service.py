@@ -7,7 +7,7 @@ class Validator:
         errors = []
         if course.cid == '':
             errors.append('ID should not be empty')
-        if course.name == '':
+        if course.name is None or course.name.strip() == '':
             errors.append('Course name should not be empty')
         if course.max_mark != 100:
             errors.append('Course should not be less 100')

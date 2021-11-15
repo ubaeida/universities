@@ -1,13 +1,18 @@
-from models.student import Student
+from enum import Enum
+
+from models.student import Student, Gender
 from storge.StudentStorage import MemoryStudentStorage
+import re
 
 
 class Validator:
     def validate(self, student: Student):
         errors = []
-        if '@gmail.com' not in student.email:
+        regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+        match = re.match(regex, student.email)
+        if match is None:
             errors.append('email is invalid')
-        if student.gender not in ['Male', 'Female']:
+        if student.gender not in list(Gender):
             errors.append('Gender is invalid')
         if student.name == '':
             errors.append('Name should not be empty')
@@ -23,7 +28,8 @@ class StudentService:
         self.validator = Validator()
 
     def store_student(self, sid, name, gender, email):
-        student = Student(_id=sid, name=name, gender=gender, email=email)
+        gender_enum = Gender[gender]
+        student = Student(_id=sid, name=name, gender=gender_enum, email=email)
         validation_errors = self.validator.validate(student)
         if len(validation_errors) != 0:
             return None, validation_errors

@@ -8,10 +8,10 @@ mark_service = MarkService()
 
 
 def add_student():
-    user_input = input('Enter a student: <id>,<name>,<gender>,<email> ')
+    user_input = input('Enter a student: <id>,<name>,<gender>,<email>\n')
     try:
         _id, name, gender, email = user_input.split(",")
-        student, errors = student_service.store_student(_id, name, gender, email)
+        student, errors = student_service.store_student(_id, name.upper(), gender, email)
         if errors is None:
             print(student)
         else:
@@ -25,7 +25,7 @@ def get_students():
 
 
 def add_course():
-    course_input = input('Enter a course: <id>, <name>, <max mark> ')
+    course_input = input('Enter a course: <id>, <name>, <max mark>\n')
     try:
         _id, name, max_mark = course_input.split(",")
         course, errors = course_service.store_course(_id, name, max_mark)
@@ -42,7 +42,7 @@ def get_course():
 
 
 def add_mark():
-    mark_input = input('Enter a student mark: <student id>, <course id>, <student mark> ')
+    mark_input = input('Enter a student mark: <student id>, <course id>, <student mark>\n')
     try:
         sid, cid, stu_mark = mark_input.split(',')
         mark = mark_service.store_mark(sid, cid, stu_mark)
@@ -57,8 +57,8 @@ def get_mark():
 
 if __name__ == "__main__":
     add_student()
-    get_students()
+    # get_students()
     # add_course()
     # get_course()
-    # add_mark()
+    add_mark()
     # get_mark()

@@ -29,3 +29,10 @@ class TestCourseService(unittest.TestCase):
         self.assertIsNotNone(errors)
         self.assertEqual(len(errors), 1)
         self.assertEqual(errors[0], 'Course name should not be empty')
+
+    def test_store_course_name_is_fake(self):
+        course_service = CourseService()
+        course, errors = course_service.store_course('2', '  ', 100)
+        self.assertIsNotNone(errors)
+        self.assertEqual(len(errors), 1)
+        self.assertEqual(errors[0], 'Course name should not be empty')
