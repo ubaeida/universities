@@ -1,5 +1,7 @@
 from models.course import Course
-from storge.CourseStorage import MemoryCourseStorage
+from storge.CourseStorage import SingletonMemoryCourseStorage
+
+memory_course_storage = SingletonMemoryCourseStorage()
 
 
 class Validator:
@@ -7,7 +9,7 @@ class Validator:
         errors = []
         if course.cid == '':
             errors.append('ID should not be empty')
-        if course.name is None or course.name.strip() == '':
+        if course.name is None:
             errors.append('Course name should not be empty')
         if course.max_mark != 100:
             errors.append('Course should not be less 100')
@@ -16,16 +18,15 @@ class Validator:
 
 class CourseService:
     def __init__(self):
-        self.memory_course_storage = MemoryCourseStorage()
         self.validator = Validator()
 
     def store_course(self, cid, name, max_mark):
-        course = Course(_id=cid, name=name, max_mark=max_mark)
+        course = Course(_id=int(cid), name=str(name), max_mark=int(max_mark))
         validation_errors = self.validator.validate(course)
         if len(validation_errors) != 0:
             return None, validation_errors
-        self.memory_course_storage.save_course(course)
+        memory_course_storage.save_course(course)
         return course, None
 
     def get_course(self):
-        self.memory_course_storage.get_courses()
+        memory_course_storage.get_courses()

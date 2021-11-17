@@ -1,8 +1,8 @@
-from enum import Enum
-
 from models.student import Student, Gender
-from storge.StudentStorage import MemoryStudentStorage
+from storge.StudentStorage import SingletonMemoryStudentStorage
 import re
+
+memory_student_storage = SingletonMemoryStudentStorage()
 
 
 class Validator:
@@ -24,17 +24,16 @@ class Validator:
 class StudentService:
 
     def __init__(self):
-        self.memory_student_storage = MemoryStudentStorage()
         self.validator = Validator()
 
     def store_student(self, sid, name, gender, email):
         gender_enum = Gender[gender]
-        student = Student(_id=sid, name=name, gender=gender_enum, email=email)
+        student = Student(sid=int(sid), name=str(name), gender=gender_enum, email=str(email))
         validation_errors = self.validator.validate(student)
         if len(validation_errors) != 0:
             return None, validation_errors
-        self.memory_student_storage.save_student(student)
+        memory_student_storage.save_student(student)
         return student, None
 
     def get_students(self):
-        return self.memory_student_storage.get_students()
+        return memory_student_storage.get_students()

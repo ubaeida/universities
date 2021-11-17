@@ -1,9 +1,21 @@
 from models.course import Course
 
 
-class MemoryCourseStorage:
+class SingletonMemoryCourseStorage:
+    __instance = None
+
+    @staticmethod
+    def get_instance():
+        if SingletonMemoryCourseStorage.__instance is None:
+            SingletonMemoryCourseStorage()
+        return SingletonMemoryCourseStorage.__instance
+
     def __init__(self):
-        self.courses = []
+        if SingletonMemoryCourseStorage.__instance is not None:
+            raise Exception('Singleton already exists')
+        else:
+            self.courses = []
+            SingletonMemoryCourseStorage.__instance = self
 
     def save_course(self, course: Course):
         self.courses.append(course)

@@ -1,14 +1,26 @@
 from models.student import Student
 
 
-class StudentStorage:
-    def save_student(self, student: Student):
-        pass
+# class StudentStorage:
+#     def save_student(self, student: Student):
+#         pass
 
 
-class MemoryStudentStorage(StudentStorage):
+class SingletonMemoryStudentStorage:
+    __instance = None
+
+    @staticmethod
+    def get_course_instance():
+        if SingletonMemoryStudentStorage.__instance is None:
+            SingletonMemoryStudentStorage()
+        return SingletonMemoryStudentStorage.__instance
+
     def __init__(self):
-        self.students = []
+        if SingletonMemoryStudentStorage.__instance is not None:
+            raise Exception('Singleton already exists')
+        else:
+            self.students = []
+            SingletonMemoryStudentStorage.__instance = self
 
     def save_student(self, student: Student):
         self.students.append(student)
@@ -17,5 +29,5 @@ class MemoryStudentStorage(StudentStorage):
         return self.students
 
 
-class DBStudentStorage(StudentStorage):
+class DBStudentStorage:
     pass

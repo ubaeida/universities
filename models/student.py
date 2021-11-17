@@ -8,8 +8,8 @@ class Gender(Enum):
 
 
 class Student:
-    def __init__(self, _id, name, gender: Gender, email):
-        self.sid = _id
+    def __init__(self, sid, name, gender: Gender, email):
+        self.sid = sid
         self.name = name
         self.gender = gender
         self.email = email
