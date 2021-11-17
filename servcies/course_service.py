@@ -28,5 +28,8 @@ class CourseService:
         memory_course_storage.save_course(course)
         return course, None
 
-    def get_course(self):
-        memory_course_storage.get_courses()
+    def get_courses(self):
+        return memory_course_storage.get_courses()
+
+    def get_single_cousre(self):
+        return memory_course_storage.get_single_course()

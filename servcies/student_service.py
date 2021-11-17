@@ -37,3 +37,6 @@ class StudentService:
 
     def get_students(self):
         return memory_student_storage.get_students()
+
+    def get_single_student(self):
+        return memory_student_storage.get_single_student()

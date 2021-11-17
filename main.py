@@ -14,7 +14,7 @@ def add_student():
         student, errors = student_service.store_student(_id.strip(), name.capitalize().strip(), gender.upper(),
                                                         email.strip())
         if errors is None:
-            print(student)
+            print('student has been saved')
         else:
             print(errors)
     except ValueError:
@@ -31,7 +31,7 @@ def add_course():
         _id, name, max_mark = course_input.split(",")
         course, errors = course_service.store_course(_id.strip(), name.strip().capitalize(), max_mark.strip())
         if errors is None:
-            print(course)
+            print('Course has been saved')
         else:
             print(errors)
     except ValueError:
@@ -39,7 +39,7 @@ def add_course():
 
 
 def get_course():
-    print(str(course_service.get_course()))
+    print(str(course_service.get_courses()))
 
 
 def add_mark():
@@ -48,7 +48,7 @@ def add_mark():
         sid, cid, stu_mark = mark_input.split(',')
         mark, errors = mark_service.store_mark(sid.strip(), cid.strip(), stu_mark.strip())
         if errors is None:
-            print(mark)
+            print('student mark has been saved')
         else:
             print(errors)
     except ValueError:
@@ -64,6 +64,5 @@ if __name__ == "__main__":
     get_students()
     add_course()
     get_course()
-    #add_mark()
-    #get_mark()
-
+    add_mark()
+    get_mark()

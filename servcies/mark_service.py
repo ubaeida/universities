@@ -22,17 +22,14 @@ class FunctionalValidator:
         self.student = StudentService()
 
     def validate(self, mark: Mark):
-        errors = []
-        # student_id = self.student.get_students()
-        course_id = self.course.get_courses()
-        print(f'course id = {course_id}')
-        # for row in course_id:
-        #     print(row)
-        # if student_id[0] != mark.sid:
-        #     errors.append('student does not exist')
-        # if course_id[0] != mark.cid:
-        #     errors.append('course does not exist')
-        return errors
+        functional_error = []
+        student_id = self.student.get_single_student()
+        course_id = self.course.get_single_cousre()
+        if student_id != mark.sid or student_id is None:
+            functional_error.append('student is not exist or student ID is wrong')
+        if course_id != mark.cid or course_id is None:
+            functional_error.append('course is not exist or student ID is wrong')
+        return functional_error
 
 
 class MarkService:

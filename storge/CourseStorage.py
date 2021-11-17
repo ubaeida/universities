@@ -22,3 +22,8 @@ class SingletonMemoryCourseStorage:
 
     def get_courses(self):
         return self.courses
+
+    def get_single_course(self):
+        for course in self.courses:
+            return course.cid
+        return None

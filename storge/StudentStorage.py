@@ -28,6 +28,11 @@ class SingletonMemoryStudentStorage:
     def get_students(self):
         return self.students
 
+    def get_single_student(self):
+        for student in self.students:
+            return student.sid
+        return None
+
 
 class DBStudentStorage:
     pass
