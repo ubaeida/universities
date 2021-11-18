@@ -23,7 +23,9 @@ class SingletonMemoryCourseStorage:
     def get_courses(self):
         return self.courses
 
-    def get_single_course(self):
+    def search_course(self, mark_cid):
         for course in self.courses:
-            return course.cid
-        return None
+            if course.cid == mark_cid:
+                return course
+            else:
+                return None

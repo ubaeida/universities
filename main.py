@@ -61,8 +61,9 @@ def get_mark():
 
 if __name__ == "__main__":
     add_student()
+    add_student()
     get_students()
-    add_course()
-    get_course()
+    # add_course()
+    # get_course()
     add_mark()
     get_mark()

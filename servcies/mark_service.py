@@ -22,14 +22,14 @@ class FunctionalValidator:
         self.student = StudentService()
 
     def validate(self, mark: Mark):
-        functional_error = []
-        student_id = self.student.get_single_student()
-        course_id = self.course.get_single_cousre()
-        if student_id != mark.sid or student_id is None:
-            functional_error.append('student is not exist or student ID is wrong')
-        if course_id != mark.cid or course_id is None:
-            functional_error.append('course is not exist or student ID is wrong')
-        return functional_error
+        functional_errors = []
+        student = self.student.search_course(mark.sid)
+        if student is None:
+            functional_errors.append('Student is not exist')
+        course = self.course.search_course(mark.cid)
+        if course is None:
+            functional_errors.append('Course is not exist')
+        return functional_errors
 
 
 class MarkService:
@@ -41,11 +41,11 @@ class MarkService:
     def store_mark(self, sid, cid, stu_mark):
         mark = Mark(sid=int(sid), cid=int(cid), stu_mark=int(stu_mark))
         validation_error = self.data_validator.validate(mark)
-        functional_error = self.functional_validator.validate(mark)
+        functional_errors = self.functional_validator.validate(mark)
         if len(validation_error) != 0:
             return None, validation_error
-        if len(functional_error) != 0:
-            return None, functional_error
+        if len(functional_errors) != 0:
+            return None, functional_errors
         self.memory_mark_storage.save_mark(mark)
         return mark, None
 

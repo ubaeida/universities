@@ -34,25 +34,27 @@ class TestMarkService(unittest.TestCase):
     def test_student_not_exist(self):
         course_service.store_course(1, 'css', 100)
         mark, functional_error = mark_service.store_mark(1, 1, 50)
-        self.assertEqual(functional_error[0], 'student is not exist or student ID is wrong')
+        self.assertEqual(functional_error[0], 'Student is not exist')
 
-    def test_student_not_match(self):
+    def test_student_search(self):
         student_service.store_student(1, 'mike', 'MALE', 'ubaeida@gmail.com')
+        student_service.store_student(2, 'moh', 'MALE', 'ubaeida@gmail.com')
         course_service.store_course(1, 'css', 100)
-        mark, functional_error = mark_service.store_mark(1, 1, 50)
+        mark, functional_error = mark_service.store_mark(3, 1, 50)
         self.assertIsNotNone(functional_error)
         self.assertEqual(len(functional_error), 1)
-        self.assertEqual(functional_error[0], 'student is not exist or student ID is wrong')
+        self.assertEqual(functional_error[0], 'Student is not exist')
 
     def test_course_not_exist(self):
         student_service.store_student(1, 'mike', 'MALE', 'ubaeida@gmail.com')
         mark, functional_error = mark_service.store_mark(1, 1, 50)
-        self.assertEqual(functional_error[0], 'course is not exist or student ID is wrong')
+        self.assertEqual(functional_error[0], 'Course is not exist')
 
-    def test_course_not_match(self):
+    def test_course_search(self):
         student_service.store_student(1, 'mike', 'MALE', 'ubaeida@gmail.com')
-        course_service.store_course(3, 'css', 100)
-        mark, functional_error = mark_service.store_mark(1, 1, 50)
+        course_service.store_course(1, 'css', 100)
+        course_service.store_course(2, 'html', 100)
+        mark, functional_error = mark_service.store_mark(1, 3, 50)
         self.assertIsNotNone(functional_error)
         self.assertEqual(len(functional_error), 1)
-        self.assertEqual(functional_error[0], 'course is not exist or student ID is wrong')
+        self.assertEqual(functional_error[0], 'Course is not exist')

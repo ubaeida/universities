@@ -31,5 +31,5 @@ class CourseService:
     def get_courses(self):
         return memory_course_storage.get_courses()
 
-    def get_single_cousre(self):
-        return memory_course_storage.get_single_course()
+    def search_course(self, mark_cid):
+        return memory_course_storage.search_course(mark_cid)
