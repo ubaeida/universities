@@ -23,7 +23,7 @@ class FunctionalValidator:
 
     def validate(self, mark: Mark):
         functional_errors = []
-        student = self.student.search_course(mark.sid)
+        student = self.student.search_student(mark.sid)
         if student is None:
             functional_errors.append('Student is not exist')
         course = self.course.search_course(mark.cid)

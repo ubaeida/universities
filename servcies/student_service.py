@@ -38,5 +38,5 @@ class StudentService:
     def get_students(self):
         return memory_student_storage.get_students()
 
-    def search_course(self, mark_sid):
-        return memory_student_storage.search_student(mark_sid)
+    def search_student(self, sid):
+        return memory_student_storage.search_student(sid)

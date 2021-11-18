@@ -28,12 +28,11 @@ class SingletonMemoryStudentStorage:
     def get_students(self):
         return self.students
 
-    def search_student(self, mark_sid):
+    def search_student(self, sid):
         for student in self.students:
-            if student.sid == mark_sid:
-                return student.sid
-            else:
-                return None
+            if student.sid == sid:
+                return student
+        return None
 
 
 class DBStudentStorage:
