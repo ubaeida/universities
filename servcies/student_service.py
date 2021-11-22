@@ -2,8 +2,6 @@ from models.student import Student, Gender
 from storge.StudentStorage import SingletonMemoryStudentStorage
 import re
 
-memory_student_storage = SingletonMemoryStudentStorage()
-
 
 class Validator:
     def validate(self, student: Student):
@@ -25,6 +23,7 @@ class StudentService:
 
     def __init__(self):
         self.validator = Validator()
+        self.memory_student_storage = SingletonMemoryStudentStorage.get_instance()
 
     def store_student(self, sid, name, gender, email):
         gender_enum = Gender[gender]
@@ -32,11 +31,11 @@ class StudentService:
         validation_errors = self.validator.validate(student)
         if len(validation_errors) != 0:
             return None, validation_errors
-        memory_student_storage.save_student(student)
+        self.memory_student_storage.save_student(student)
         return student, None
 
     def get_students(self):
-        return memory_student_storage.get_students()
+        return self.memory_student_storage.get_students()
 
     def search_student(self, sid):
-        return memory_student_storage.search_student(sid)
+        return self.memory_student_storage.search_student(sid)

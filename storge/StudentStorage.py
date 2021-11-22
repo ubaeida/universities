@@ -10,7 +10,7 @@ class SingletonMemoryStudentStorage:
     __instance = None
 
     @staticmethod
-    def get_course_instance():
+    def get_instance():
         if SingletonMemoryStudentStorage.__instance is None:
             SingletonMemoryStudentStorage()
         return SingletonMemoryStudentStorage.__instance

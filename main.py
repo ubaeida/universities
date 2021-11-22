@@ -8,9 +8,9 @@ mark_service = MarkService()
 
 
 def add_student():
-    user_input = input('Enter a student: <id>,<name>,<gender>,<email>\n')
+    student_input = input('Enter a student: <id>,<name>,<gender>,<email>\n')
     try:
-        _id, name, gender, email = user_input.split(",")
+        _id, name, gender, email = student_input.split(",")
         student, errors = student_service.store_student(_id.strip(), name.capitalize().strip(), gender.upper(),
                                                         email.strip())
         if errors is None:
@@ -59,11 +59,39 @@ def get_mark():
     print(str(mark_service.get_mark()))
 
 
+def get_total():
+    print(mark_service.calculate_marks())
+
+
+def user_input():
+    user_input = input(
+        """
+        select an option by using the option's number : 
+        
+        0- to exit 
+        1- add student
+        2- add course
+        3- add mark
+        4- get student 
+        5- get course 
+        6- get mark 
+        7-get total
+        \n --->""")
+    user_input.strip()
+    action_mapping = {
+        '1': lambda: add_student(),
+        '2': lambda: add_course(),
+        '3': lambda: add_mark(),
+        '4': lambda: get_students(),
+        '5': lambda: get_course(),
+        '6': lambda: get_mark(),
+        '7': lambda: get_total()
+    }
+
+    while user_input != '0':
+        action_mapping[user_input]()
+        user_input = input('Enter the action number\n--->')
+
+
 if __name__ == "__main__":
-    add_student()
-    add_student()
-    get_students()
-    # add_course()
-    # get_course()
-    add_mark()
-    get_mark()
+    user_input()

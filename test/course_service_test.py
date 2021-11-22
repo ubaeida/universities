@@ -11,7 +11,7 @@ class TestCourseService(unittest.TestCase):
 
     def test_store_course_MaxMark_invalid(self):
         course_service = CourseService()
-        course, errors = course_service.store_course('1', 'Css', '80')
+        course, errors = course_service.store_course(1, 'Css', '80')
         self.assertIsNotNone(errors)
         self.assertEqual(len(errors), 1)
         self.assertEqual(errors[0], 'Course should not be less 100')
@@ -25,7 +25,7 @@ class TestCourseService(unittest.TestCase):
 
     def test_store_course_name_is_null(self):
         course_service = CourseService()
-        course, errors = course_service.store_course('2', '', 100)
+        course, errors = course_service.store_course('2', None, 100)
         self.assertIsNotNone(errors)
         self.assertEqual(len(errors), 1)
         self.assertEqual(errors[0], 'Course name should not be empty')

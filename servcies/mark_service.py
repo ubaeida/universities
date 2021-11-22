@@ -1,5 +1,5 @@
 from models.mark import Mark
-from storge.MarkStorage import MemoryMarkStorage
+from storge.MarkStorage import SingletonMemoryMarkStorage
 from servcies.student_service import StudentService
 from servcies.course_service import CourseService
 
@@ -18,27 +18,31 @@ class Validator:
 
 class FunctionalValidator:
     def __init__(self):
-        self.course = CourseService()
-        self.student = StudentService()
+        self.course_service = CourseService()
+        self.student_service = StudentService()
+        self.mark_storage = SingletonMemoryMarkStorage.get_instance()
 
     def validate(self, mark: Mark):
         functional_errors = []
-        student = self.student.search_student(mark.sid)
+        student = self.student_service.search_student(mark.sid)
         if student is None:
-            functional_errors.append('Student is not exist')
-        course = self.course.search_course(mark.cid)
+            return ['Student is not exist']
+        course = self.course_service.search_course(mark.cid)
         if course is None:
-            functional_errors.append('Course is not exist')
+            return ['Course is not exist']
+        mark = self.mark_storage.search_mark(mark.sid, mark.cid)
+        if mark is not None:
+            return ['These mark and student already exist']
         return functional_errors
 
 
 class MarkService:
     def __init__(self):
-        self.memory_mark_storage = MemoryMarkStorage()
+        self.memory_mark_storage = SingletonMemoryMarkStorage.get_instance()
         self.data_validator = Validator()
         self.functional_validator = FunctionalValidator()
 
-    def store_mark(self, sid, cid, stu_mark):
+    def store_mark(self, sid: int, cid: int, stu_mark: int):
         mark = Mark(sid=int(sid), cid=int(cid), stu_mark=int(stu_mark))
         validation_error = self.data_validator.validate(mark)
         functional_errors = self.functional_validator.validate(mark)
@@ -48,6 +52,19 @@ class MarkService:
             return None, functional_errors
         self.memory_mark_storage.save_mark(mark)
         return mark, None
+
+    def calculate_marks(self):
+        marks = self.memory_mark_storage.get_marks()
+        students_marks = []
+        for mark in marks:
+            if mark is not None:
+                print(mark.stu_mark)
+                students_marks.append(mark.stu_mark)
+        total = sum(students_marks)
+        avg = sum(students_marks) / len(students_marks)
+        print(total)
+        print(avg)
+        return total, avg
 
     def get_mark(self):
         return self.memory_mark_storage.get_marks()
