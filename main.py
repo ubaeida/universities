@@ -60,7 +60,7 @@ def get_mark():
 
 
 def get_total():
-    print(mark_service.calculate_marks())
+    print(mark_service.calculate_student_marks())
 
 
 def user_input():
@@ -89,8 +89,12 @@ def user_input():
     }
 
     while user_input != '0':
-        action_mapping[user_input]()
-        user_input = input('Enter the action number\n--->')
+        if user_input in action_mapping.keys():
+            action_mapping[user_input]()
+            user_input = input('Enter the action number\n--->')
+        else:
+            print('You entered a wrong value, Please check the list again')
+            user_input = input('Enter the action number\n--->')
 
 
 if __name__ == "__main__":

@@ -53,18 +53,18 @@ class MarkService:
         self.memory_mark_storage.save_mark(mark)
         return mark, None
 
-    def calculate_marks(self):
+    def calculate_student_marks (self):
         marks = self.memory_mark_storage.get_marks()
         students_marks = []
         for mark in marks:
-            if mark is not None:
-                print(mark.stu_mark)
-                students_marks.append(mark.stu_mark)
+            students_marks.append(mark.stu_mark)
         total = sum(students_marks)
-        avg = sum(students_marks) / len(students_marks)
-        print(total)
-        print(avg)
-        return total, avg
+        avg = total / len(students_marks)
+        format(avg, ".2f")
+        if avg >= 50:
+            return print(f'the Student average is {format(avg, ".2f")}, and the student passed')
+        else:
+            return print(f'the student average is {format(avg, ".2f")}, and the student fail ')
 
     def get_mark(self):
         return self.memory_mark_storage.get_marks()

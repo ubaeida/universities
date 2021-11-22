@@ -58,7 +58,7 @@ class TestMarkService(unittest.TestCase):
         self.assertEqual(functional_error[0], 'These mark and student already exist')
 
     def test_marks_calculation(self):
-        student_service.store_student(20, 'mike', 'MALE', 'Mike@gmail.com')
+        student_service.store_student(20, 'mike', 'MALE', 'ubaeida.alkayal@gmail.com')
         course_service.store_course(7, 'html', 100)
         course_service.store_course(8, 'css', 100)
         course_service.store_course(9, 'php', 100)
@@ -72,7 +72,5 @@ class TestMarkService(unittest.TestCase):
         mark_service.store_mark(20, 10, 77)
         mark_service.store_mark(20, 11, 54)
         mark_service.store_mark(20, 12, 24)
-        mark = mark_service.store_mark(20, 13, 91)
-        print(mark)
-
-        print(mark_service.calculate_marks())
+        mark_service.store_mark(20, 13, 91)
+        print(mark_service.calculate_student_marks())
