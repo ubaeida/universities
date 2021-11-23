@@ -59,8 +59,10 @@ def get_mark():
     print(str(mark_service.get_mark()))
 
 
-def get_total():
-    print(mark_service.calculate_student_marks())
+def calculate_student_marks():
+    student_id = input('Enter the ID of the student you want his marks average : ')
+
+    print(mark_service.calculate_student_marks(int(student_id)))
 
 
 def user_input():
@@ -85,7 +87,7 @@ def user_input():
         '4': lambda: get_students(),
         '5': lambda: get_course(),
         '6': lambda: get_mark(),
-        '7': lambda: get_total()
+        '7': lambda: calculate_student_marks()
     }
 
     while user_input != '0':

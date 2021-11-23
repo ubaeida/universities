@@ -33,7 +33,6 @@ class TestMarkService(unittest.TestCase):
     def test_course_not_exist(self):
         student_service.store_student(6, 'mike', 'MALE', 'ubaeida@gmail.com')
         mark, functional_error = mark_service.store_mark(6, 1, 50)
-        print(mark, functional_error)
         self.assertIsNotNone(functional_error)
         self.assertEqual(len(functional_error), 1)
         self.assertEqual(functional_error[0], 'Course is not exist')
@@ -52,13 +51,13 @@ class TestMarkService(unittest.TestCase):
         course_service.store_course(6, 'css', 100)
         mark_service.store_mark(8, 6, 50)
         mark, functional_error = mark_service.store_mark(8, 6, 50)
-
         self.assertIsNotNone(functional_error)
         self.assertEqual(len(functional_error), 1)
         self.assertEqual(functional_error[0], 'These mark and student already exist')
 
     def test_marks_calculation(self):
         student_service.store_student(20, 'mike', 'MALE', 'ubaeida.alkayal@gmail.com')
+        student_service.store_student(21, 'mike', 'MALE', 'ubaeida.alkayal@gmail.com')
         course_service.store_course(7, 'html', 100)
         course_service.store_course(8, 'css', 100)
         course_service.store_course(9, 'php', 100)
@@ -66,11 +65,20 @@ class TestMarkService(unittest.TestCase):
         course_service.store_course(11, 'python', 100)
         course_service.store_course(12, 'c++', 100)
         course_service.store_course(13, 'delphi', 100)
-        mark_service.store_mark(20, 7, 35)
+        mark_service.store_mark(20, 7, 60)
         mark_service.store_mark(20, 8, 60)
-        mark_service.store_mark(20, 9, 80)
-        mark_service.store_mark(20, 10, 77)
-        mark_service.store_mark(20, 11, 54)
-        mark_service.store_mark(20, 12, 24)
-        mark_service.store_mark(20, 13, 91)
-        print(mark_service.calculate_student_marks())
+        mark_service.store_mark(21, 10, 77)
+        mark_service.store_mark(21, 11, 54)
+        mark_service.store_mark(21, 12, 24)
+        mark_service.store_mark(21, 13, 91)
+        results = mark_service.calculate_student_marks(20)
+        print(results)
+        self.assertIsNotNone(results)
+        self.assertEqual(len(results), 1)
+
+    def test_marks_calculation_withnostudnet(self):
+        results = mark_service.calculate_student_marks(22)
+        self.assertIsNotNone(results)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0], 'Student not exist or has no marks')
+
