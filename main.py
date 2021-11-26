@@ -59,10 +59,20 @@ def get_mark():
     print(str(mark_service.get_mark()))
 
 
-def calculate_student_marks():
+def get_student_GPA():
     student_id = input('Enter the ID of the student you want his marks average : ')
+    print(mark_service.student_GPA(int(student_id)))
 
-    print(mark_service.calculate_student_marks(int(student_id)))
+
+def get_course_average():
+    course_id = input('Enter the ID of the student you want his marks average : ')
+    print(mark_service.get_course_avg(int(course_id)))
+
+
+def get_marks_page():
+    page_no = input('Enter page number: ')
+    page_size = input('Enter page size: ')
+    mark_service.get_marks_page(int(page_no), int(page_size))
 
 
 def user_input():
@@ -77,7 +87,8 @@ def user_input():
         4- get student 
         5- get course 
         6- get mark 
-        7-get total
+        7-get student GPA 
+        8-get course GPA
         \n --->""")
     user_input.strip()
     action_mapping = {
@@ -87,7 +98,8 @@ def user_input():
         '4': lambda: get_students(),
         '5': lambda: get_course(),
         '6': lambda: get_mark(),
-        '7': lambda: calculate_student_marks()
+        '7': lambda: get_student_GPA(),
+        '8': lambda: get_course_average()
     }
 
     while user_input != '0':

@@ -53,24 +53,32 @@ class MarkService:
         self.memory_mark_storage.save_mark(mark)
         return mark, None
 
-    def calculate_student_marks(self, sid: int):
-        marks = self.memory_mark_storage.get_marks()
-        student_marks = []
-        student_gpa = []
-        for mark in marks:
-            if mark.sid == sid:
-                student_marks.append(mark.stu_mark)
-        if len(student_marks) == 0:
-            student_gpa.append('Student not exist or has no marks')
-            return student_gpa
-        else:
-            total = sum(student_marks)
-            avg = total / len(student_marks)
-            if avg >= 50:
-                student_gpa.append(f'the Student average is {format(avg, ".2f")}, and the student passed')
-            else:
-                student_gpa.append(f'the student average is {format(avg, ".2f")}, and the student fail')
-            return student_gpa
+    def student_GPA(self, sid: int):
+        marks = self.memory_mark_storage.get_student_marks(sid)
+        if len(marks) == 0:
+            return 'student has no marks', None
+        mark_values = list(map(lambda mark: mark.stu_mark, marks))
+        total = sum(mark_values)
+        avg = total / len(mark_values)
+        return None, avg
+
+    def get_course_avg(self, cid: int):
+        courses = self.memory_mark_storage.get_course_marks(cid)
+        if len(courses) == 0:
+            return 'course has no marks', None
+        courses_mark = list(map(lambda mark: mark.stu_mark, courses))
+        total = sum(courses_mark)
+        avg = total / len(courses_mark)
+        return None, avg
+
+    def get_marks_page(self, page_no: int, page_size=None):
+        if page_no <= 0:
+            page_no = 1
+        if page_size is None or page_size <= 0:
+            page_size = 10
+        offset = (page_no - 1) * page_size
+        limit = offset + page_size
+        return self.memory_mark_storage.get_marks_page(offset, limit)
 
     def get_mark(self):
         return self.memory_mark_storage.get_marks()

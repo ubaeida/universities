@@ -27,10 +27,18 @@ class SingletonMemoryMarkStorage:
         str(self.marks)
         return self.marks
 
+    def get_student_marks(self, sid):
+        return list(filter(lambda mark: mark.sid == sid, self.marks))
+
+    def get_course_marks(self, cid):
+        return list(filter(lambda mark: mark.cid == cid, self.marks))
+
+    def get_marks_page(self, offset, limit):
+        print('offset = ', offset, 'end =', limit)
+        return list(self.marks[offset:limit])
+
     def search_mark(self, sid, cid):
         for mark in self.marks:
             if mark.sid == sid and mark.cid == cid:
                 return mark
         return None
-
-
