@@ -1,6 +1,7 @@
 from servcies.student_service import StudentService
 from servcies.course_service import CourseService
 from servcies.mark_service import MarkService
+import re
 
 student_service = StudentService()
 course_service = CourseService()
@@ -56,7 +57,7 @@ def add_mark():
 
 
 def get_mark():
-    print(str(mark_service.get_mark()))
+    print(str(mark_service.get_marks()))
 
 
 def get_student_GPA():
@@ -73,6 +74,18 @@ def get_marks_page():
     page_no = input('Enter page number: ')
     page_size = input('Enter page size: ')
     mark_service.get_marks_page(int(page_no), int(page_size))
+
+
+def custom_mark_filter():
+    mark_input = input('Enter the criteria with the format as below: '
+                       'COURSE_ID marks OPERATION value example : (2 marks = 10) you can Enter here: ')
+    regex = '\d+\s+marks\s+[<=>]\s+\d+'
+    match = re.match(regex, mark_input)
+    if match is None:
+        print('invalid input')
+    else:
+        cid, _, op, value = mark_input.split(' ')
+        mark_service.custom_filter(int(cid), op, int(value))
 
 
 def user_input():
@@ -112,4 +125,5 @@ def user_input():
 
 
 if __name__ == "__main__":
-    user_input()
+    # user_input()
+    custom_mark_filter()

@@ -80,5 +80,20 @@ class MarkService:
         limit = offset + page_size
         return self.memory_mark_storage.get_marks_page(offset, limit)
 
-    def get_mark(self):
+    def get_marks(self):
         return self.memory_mark_storage.get_marks()
+
+    def custom_filter(self, cid, op, value: int):
+        if cid is None:
+            return None, ['Course id is invalid']
+        if op not in ['<', '=', '>'] or op is None:
+            return None, ['Operation invalid ']
+        if value not in range(0, 100) or value is None:
+            return None, ['Value invalid']
+        operation_mapping = {
+            '>': lambda mark: mark.cid == cid and mark.stu_mark > value,
+            '=': lambda mark: mark.cid == cid and mark.stu_mark == value,
+            '<': lambda mark: mark.cid == cid and mark.stu_mark < value
+        }
+        fun = operation_mapping[op]
+        return self.memory_mark_storage.custom_filter(fun)

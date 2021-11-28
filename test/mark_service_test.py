@@ -114,8 +114,8 @@ class TestMarkService(unittest.TestCase):
         for i in range(1, 10):
             for j in range(30, 40):
                 mark_service.store_mark(i, j, rand.randint(50, 99))
-        mark_service.get_mark()
-        for mark in mark_service.get_mark():
+        mark_service.get_marks()
+        for mark in mark_service.get_marks():
             print(mark)
         page1 = mark_service.get_marks_page(2, 5)
         print('------------------------------')
@@ -140,3 +140,21 @@ class TestMarkService(unittest.TestCase):
         l = [i for i in range(1, 16)]
         print(l)
         page(10, 5, l)
+
+    def test_mark_custom_filter(self):
+        for idx in range(1, 10):
+            student_service.store_student(idx, 'mike', 'MALE', 'ubaeida.alkayal@gmail.com')
+
+        for idx in range(30, 40):
+            course_service.store_course(idx, 'Course', 100)
+
+        rand = random.Random()
+
+        for i in range(1, 10):
+            for j in range(30, 40):
+                mark_service.store_mark(i, j, rand.randint(50, 99))
+        for mark in mark_service.custom_filter(35, '=', 50):
+            print(mark)
+        print('------------------------------')
+
+

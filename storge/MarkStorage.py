@@ -42,3 +42,9 @@ class SingletonMemoryMarkStorage:
             if mark.sid == sid and mark.cid == cid:
                 return mark
         return None
+
+    def custom_filter(self, fun):
+        return list(filter(fun, self.marks))
+
+    def custom_filter_2(self, course_func, mark_fun):
+        return list(filter(mark_fun, filter(course_func, self.marks)))
